@@ -6,11 +6,6 @@ resource "aws_iam_user" "kunal" {
   name = "Kunal"
 }
 
-resource "aws_iam_user_policy_attachment" "s3_kunal" {
-  user       = "${aws_iam_user.kunal.name}"
-  policy_arn = "${var.s3_access_policy}"
-}
-
 resource "aws_iam_user" "matt" {
   name = "Matt"
 }
@@ -25,6 +20,7 @@ resource "aws_iam_group_membership" "dev_members" {
   users = [
     "${aws_iam_user.donna.name}",
     "${aws_iam_user.matt.name}",
+    "${aws_iam_user.kunal.name}",
   ]
 
   group = "${aws_iam_group.dev.name}"
