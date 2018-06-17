@@ -42,6 +42,30 @@ resource "aws_iam_group" "dev" {
 }
 
 resource "aws_iam_group_policy_attachment" "s3_dev_group" {
-  policy_arn = "${var.s3_access_policy}"
+  policy_arn = "${var.s3_full_access_policy}"
   group      = "${aws_iam_group.dev.name}"
+}
+
+resource "aws_iam_role" "ec2_s3_access" {
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "ec2.amazonaws.com"
+      },
+      "Action": "sts:AssumeRole"
+    }
+  ]
+}
+EOF
+
+  name = "EC2-S3-Access"
+}
+
+resource "aws_iam_role_policy_attachment" "ec2-s3-access" {
+  policy_arn = "${var.s3_full_access_policy}"
+  role       = "${aws_iam_role.ec2_s3_access.name}"
 }

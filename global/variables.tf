@@ -43,7 +43,7 @@ variable "password_reuse" {
   default     = 3
 }
 
-variable "s3_access_policy" {
+variable "s3_full_access_policy" {
   description = "ARN of premade S3 access policy"
   default     = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 }
